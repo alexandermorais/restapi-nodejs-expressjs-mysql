@@ -68,6 +68,40 @@ const addLanguage = async (request, response) => {
     }
 };
 
+// Method updateLanguage
+const updateLanguage = async (request, response) => {
+    try {
+        // Variables
+        const { id } = request.params;
+        const { name, programmers } = request.body;
+
+        // Validation
+        if (
+            id === undefined ||
+            name === undefined ||
+            programmers === undefined
+        ) {
+            response
+                .status(400)
+                .json({ message: "Bad request. Please fill all field." });
+        }
+
+        const language = { name, programmers };
+        const databaseConnection = await getConnection();
+        const queryOne = "UPDATE languages SET ? WHERE id = ?";
+
+        // Query
+        const result = await databaseConnection.query(queryOne, [language, id]);
+
+        // Response
+        response.json(result);
+    } catch (error) {
+        // Response
+        response.status(500);
+        response.send(error.message);
+    }
+};
+
 // Method deleteLanguage
 const deleteLanguage = async (request, response) => {
     try {
@@ -93,5 +127,6 @@ export const methods = {
     getLanguages,
     addLanguage,
     getLanguage,
+    updateLanguage,
     deleteLanguage,
 };
