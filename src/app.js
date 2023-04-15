@@ -18,6 +18,9 @@ app.set("port", 4000);
 // Middlewares
 app.use(morgan("dev"));
 
+// To understands and process JSON
+app.use(express.json());
+
 // Routes
 app.use("/api/languages", languageRoutes);
 
