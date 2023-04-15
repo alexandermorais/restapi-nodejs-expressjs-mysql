@@ -68,9 +68,30 @@ const addLanguage = async (request, response) => {
     }
 };
 
+// Method deleteLanguage
+const deleteLanguage = async (request, response) => {
+    try {
+        // Variables
+        const { id } = request.params;
+        const databaseConnection = await getConnection();
+        const queryOne = "DELETE FROM languages WHERE id = ?";
+
+        // Query
+        const result = await databaseConnection.query(queryOne, id);
+
+        // Response
+        response.json(result);
+    } catch (error) {
+        // Response
+        response.status(500);
+        response.send(error.message);
+    }
+};
+
 // Export methods
 export const methods = {
     getLanguages,
     addLanguage,
     getLanguage,
+    deleteLanguage,
 };
