@@ -19,6 +19,27 @@ const getLanguages = async (request, response) => {
     }
 };
 
+// Method getLanguage
+const getLanguage = async (request, response) => {
+    try {
+        // Variables
+        const { id } = request.params;
+        const databaseConnection = await getConnection();
+        const queryOne =
+            "SELECT id, name, programmers FROM languages WHERE id = ?";
+
+        // Query
+        const result = await databaseConnection.query(queryOne, id);
+
+        // Response
+        response.json(result);
+    } catch (error) {
+        // Response
+        response.status(500);
+        response.send(error.message);
+    }
+};
+
 // Method addLanguage
 const addLanguage = async (request, response) => {
     try {
@@ -51,4 +72,5 @@ const addLanguage = async (request, response) => {
 export const methods = {
     getLanguages,
     addLanguage,
+    getLanguage,
 };
